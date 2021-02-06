@@ -1,5 +1,5 @@
 # Game JavaScript OOP
-> Udemy Projects Mentorzy IT
+> Udemy Projects Game Mentorzy IT
 
 ## Table of contents
 * [General info](#general-info)
@@ -10,6 +10,9 @@
 
 ## General info
 Implementation of the programming course. More information coming soon.
+Game authors:
+ 
+* "Hangman" - Kacper Sieradziński
 
 ## Technologies
 Vanilla JavaScript ES6
