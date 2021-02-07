@@ -17,5 +17,10 @@ export default class Cell extends UI {
     revalCell() {
         this.isReveal = true;
         this.element.classList.remove('border--concave');
-    }
+        this.element.classList.add('border--revealed');
+    };
+    toggleFlag() {
+        this.isFlagged = !this.isFlagged;
+        this.element.classList.toggle('cell--is-flag');
+    };
 };

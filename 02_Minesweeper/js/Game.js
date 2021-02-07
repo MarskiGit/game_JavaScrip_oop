@@ -76,17 +76,27 @@ class Game extends UI {
         })
     };
     handleCellClick = event => {
-        if (event.originalTarget.tagName === 'DIV') {
-            const target = event.target;
-            const rowIndex = parseInt(target.getAttribute('data-y'), 10);
-            const collIndex = parseInt(target.getAttribute('data-x'), 10);
-            this.cells[rowIndex][collIndex].revalCell();
-
+        const azimuth = this.getAzimuth(event);
+        if (azimuth) this.cells[azimuth.rowIndex][azimuth.collIndex].revalCell();
+    };
+    handleCellContextmenu = event => {
+        event.preventDefault();
+        const azimuth = this.getAzimuth(event);
+        if (azimuth) {
+            const cell = this.cells[azimuth.rowIndex][azimuth.collIndex];
+            cell.isReveal || cell.toggleFlag();
         };
     };
-    handleCellContextmenu = () => {
-
-    }
+    getAzimuth(event) {
+        if (event.originalTarget.tagName === 'DIV') {
+            const target = event.target;
+            return {
+                rowIndex: parseInt(target.getAttribute('data-y'), 10),
+                collIndex: parseInt(target.getAttribute('data-x'), 10)
+            };
+        };
+        return false;
+    };
     setStyle() {
         document.documentElement.style.setProperty('--cells-in-row', this.numberOfCols)
     };
