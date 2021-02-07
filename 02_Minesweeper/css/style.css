@@ -17,10 +17,7 @@
   --border-width: 0.3rem;
   --cells-in-row: 8;
 
-  --game-max-width: calc(
-    var(--cell-size) * var(--cells-in-row) + calc(2 * var(--game-padding)) +
-      calc(2 * var(--border-width))
-  );
+  --game-max-width: calc(var(--cell-size) * var(--cells-in-row) + calc(2 * var(--game-padding)) + calc(2 * var(--border-width)));
 }
 
 @font-face {
@@ -94,9 +91,11 @@ html {
   text-align: center;
   font-size: 2.6rem;
 }
+
 .panel__buttons {
   display: flex;
 }
+
 .button {
   flex: 1;
   padding-top: 2.5rem;
@@ -104,6 +103,7 @@ html {
   cursor: pointer;
   font-size: 2.4rem;
 }
+
 .modal {
   position: fixed;
   top: 0;
@@ -115,6 +115,7 @@ html {
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.8);
 }
+
 .modal__content {
   width: 50vw;
   height: 50vh;
@@ -124,10 +125,12 @@ html {
   align-items: center;
   justify-content: space-around;
 }
+
 .modal__text {
   font-size: 4.8rem;
   text-align: center;
 }
+
 .modal__button {
   cursor: pointer;
   background-color: transparent;
@@ -142,20 +145,25 @@ html {
   transition: background-color 0.1s ease-in, color 0.1s ease-in,
     border-color 0.1s ease-in;
 }
+
 .modal__button:hover {
   background-color: #000;
   color: #fff;
   border-color: #000;
 }
+
 .border {
   border: var(--border-width) solid;
 }
+
 .border--convex {
   border-color: var(--primary-color--dark) #fff #fff var(--primary-color--dark);
 }
+
 .border--concave {
   border-color: #fff var(--primary-color--dark) var(--primary-color--dark) #fff;
 }
+
 .border--revealed {
   border-width: 0.1rem;
   border-color: var(--primary-color--dark);
@@ -186,24 +194,31 @@ html {
 .cell-info-1 {
   color: var(--info-one-color);
 }
+
 .cell-info-2 {
   color: var(--info-two-color);
 }
+
 .cell-info-3 {
   color: var(--info-three-color);
 }
+
 .cell-info-4 {
   color: var(--info-four-color);
 }
+
 .cell-info-5 {
   color: var(--info-five-color);
 }
+
 .cell-info-6 {
   color: var(--info-six-color);
 }
+
 .cell-info-7 {
   color: var(--info-seven-color);
 }
+
 .cell-info-8 {
   color: var(--info-eight-color);
 }
