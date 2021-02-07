@@ -1,6 +1,9 @@
 "use strict";
-export class Cell {
+import UI from './UI.js';
+
+export default class Cell extends UI {
     constructor(x, y) {
+        super();
         this.x = x;
         this.y = y;
         this.value = 0;
@@ -10,4 +13,5 @@ export class Cell {
         this.selector = `[data-x="${this.x}"][data-y="${this.y}"]`;
         this.element = null;
     };
+    createElement = () => `<div class="cell border border--concave" data-cell data-x="${this.x}" data-y="${this.y}"></div>`;
 };

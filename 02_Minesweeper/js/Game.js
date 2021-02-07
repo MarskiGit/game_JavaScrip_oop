@@ -1,9 +1,10 @@
 "use strict";
-import {
-    Cell
-} from './Cell.js'
-class Game {
+import Cell from './Cell.js';
+import UI from './UI.js';
+
+class Game extends UI {
     constructor() {
+        super();
         this.config = {
             easy: {
                 rows: 8,
@@ -25,9 +26,11 @@ class Game {
         this.numberOfCols = null;
         this.numberOfmines = null;
         this.celss = [];
+        this.board = null;
 
     };
     initializeGame() {
+        this.handleElements();
         this.newGame();
     };
     newGame(
@@ -40,6 +43,10 @@ class Game {
         this.numberOfmines = mines;
 
         this.generateCells();
+        this.renderBoard();
+    };
+    handleElements() {
+        this.board = this.getElement(this.UiSelectors.board);
     };
     generateCells() {
 
@@ -48,11 +55,16 @@ class Game {
 
             for (let col = 0; col < this.numberOfCols; col++) {
                 this.celss[row].push(new Cell(col, row));
-            }
+            };
         };
     };
-
-}
+    renderBoard() {
+        this.celss.flat().forEach(cell => {
+            this.board.insertAdjacentHTML('beforeend', cell.createElement())
+            cell.element = cell.getElement(cell.selector)
+        })
+    };
+};
 
 window.onload = function () {
     const game = new Game();
