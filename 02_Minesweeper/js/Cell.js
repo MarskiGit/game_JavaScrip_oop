@@ -14,4 +14,8 @@ export default class Cell extends UI {
         this.element = null;
     };
     createElement = () => `<div class="cell border border--concave" data-cell data-x="${this.x}" data-y="${this.y}"></div>`;
+    revalCell() {
+        this.isReveal = true;
+        this.element.classList.remove('border--concave');
+    }
 };

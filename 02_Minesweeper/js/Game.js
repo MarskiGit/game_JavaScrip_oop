@@ -17,15 +17,16 @@ class Game extends UI {
                 mines: 40
             },
             expert: {
-                rows: 1,
+                rows: 16,
                 cols: 30,
                 mines: 99
-            },
+            }
         };
         this.numberOfRows = null;
         this.numberOfCols = null;
         this.numberOfmines = null;
-        this.celss = [];
+        this.cells = [];
+        this.celssElements = null;
         this.board = null;
 
     };
@@ -42,27 +43,52 @@ class Game extends UI {
         this.numberOfCols = cols;
         this.numberOfmines = mines;
 
+        this.setStyle();
+
         this.generateCells();
         this.renderBoard();
+
+        this.celssElements = this.getElement(this.UiSelectors.board);
+
+        this.addCelssEventListeners();
     };
     handleElements() {
         this.board = this.getElement(this.UiSelectors.board);
     };
-    generateCells() {
+    addCelssEventListeners() {
+        this.celssElements.addEventListener('click', this.handleCellClick);
+        this.celssElements.addEventListener('contextmenu', this.handleCellContextmenu);
 
+    };
+    generateCells() {
         for (let row = 0; row < this.numberOfRows; row++) {
-            this.celss[row] = [];
+            this.cells[row] = [];
 
             for (let col = 0; col < this.numberOfCols; col++) {
-                this.celss[row].push(new Cell(col, row));
+                this.cells[row].push(new Cell(col, row));
             };
         };
     };
     renderBoard() {
-        this.celss.flat().forEach(cell => {
+        this.cells.flat().forEach(cell => {
             this.board.insertAdjacentHTML('beforeend', cell.createElement())
             cell.element = cell.getElement(cell.selector)
         })
+    };
+    handleCellClick = event => {
+        if (event.originalTarget.tagName === 'DIV') {
+            const target = event.target;
+            const rowIndex = parseInt(target.getAttribute('data-y'), 10);
+            const collIndex = parseInt(target.getAttribute('data-x'), 10);
+            this.cells[rowIndex][collIndex].revalCell();
+
+        };
+    };
+    handleCellContextmenu = () => {
+
+    }
+    setStyle() {
+        document.documentElement.style.setProperty('--cells-in-row', this.numberOfCols)
     };
 };
 
