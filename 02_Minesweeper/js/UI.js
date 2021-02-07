@@ -3,7 +3,9 @@ export default class UI {
     constructor() {
         this.UiSelectors = {
             board: '[data-board]',
-            cell: '[data-cell]'
+            cell: '[data-cell]',
+            counter: '[data-counter]',
+            timer: '[data-timer]'
         };
     };
     getElement = selector => document.querySelector(selector);

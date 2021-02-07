@@ -1,6 +1,8 @@
 "use strict";
 import Cell from './Cell.js';
 import UI from './UI.js';
+import Counter from './Counter.js';
+import Timer from './Timer.js';
 
 class Game extends UI {
     constructor() {
@@ -22,6 +24,9 @@ class Game extends UI {
                 mines: 99
             }
         };
+        this.Counter = new Counter();
+        this.Timer = new Timer();
+
         this.numberOfRows = null;
         this.numberOfCols = null;
         this.numberOfmines = null;
@@ -32,6 +37,8 @@ class Game extends UI {
     };
     initializeGame() {
         this.handleElements();
+        this.Counter.init();
+        this.Timer.startTimer();
         this.newGame();
     };
     newGame(
@@ -42,7 +49,7 @@ class Game extends UI {
         this.numberOfRows = rows;
         this.numberOfCols = cols;
         this.numberOfmines = mines;
-
+        this.Counter.setValue(this.numberOfmines);
         this.setStyle();
 
         this.generateCells();
@@ -63,7 +70,6 @@ class Game extends UI {
     generateCells() {
         for (let row = 0; row < this.numberOfRows; row++) {
             this.cells[row] = [];
-
             for (let col = 0; col < this.numberOfCols; col++) {
                 this.cells[row].push(new Cell(col, row));
             };
@@ -84,7 +90,17 @@ class Game extends UI {
         const azimuth = this.getAzimuth(event);
         if (azimuth) {
             const cell = this.cells[azimuth.rowIndex][azimuth.collIndex];
-            cell.isReveal || cell.toggleFlag();
+
+            if (cell.isReval) return
+            if (cell.isFlagged) {
+                this.Counter.increment();
+                cell.toggleFlag();
+                return
+            };
+            if (!!this.Counter.value) {
+                this.Counter.decrement();
+                cell.toggleFlag();
+            };
         };
     };
     getAzimuth(event) {
