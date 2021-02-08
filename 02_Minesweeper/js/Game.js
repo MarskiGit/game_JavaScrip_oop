@@ -4,6 +4,7 @@ import UI from './UI.js';
 import Counter from './Counter.js';
 import Timer from './Timer.js';
 import ResetButton from './ResetButton.js';
+import Modal from './Modal.js';
 
 class Game extends UI {
     constructor() {
@@ -31,13 +32,18 @@ class Game extends UI {
 
         this.Counter = new Counter();
         this.Timer = new Timer();
+        this.Modal = new Modal();
+
         this.isGameFinished = false;
         this.numberOfRows = null;
         this.numberOfCols = null;
         this.numberOfmines = null;
         this.cells = [];
         this.cellsElements = null;
+        this.cellsToReveal = 0;
+        this.revealedCells = 0;
         this.board = null;
+
 
     };
     initializeGame() {
@@ -58,6 +64,8 @@ class Game extends UI {
         this.Counter.setValue(this.numberOfmines);
         this.Timer.resetTimer();
 
+        this.cellsToReveal = this.numberOfCols * this.numberOfRows - this.numberOfmines;
+
         this.setStyle();
 
         this.generateCells();
@@ -65,16 +73,29 @@ class Game extends UI {
         this.placeMinesinCells();
 
         this.cellsElements = this.getElement(this.UiSelectors.board);
+        this.buttons.reset.changeEmotion('neutral');
+        this.isGameFinished = false;
+        this.revealedCells = 0;
 
         this.addCelssEventListeners();
     };
     endGame(isWin) {
         this.isGameFinished = true;
         this.Timer.stopTimer();
+        this.Modal.buttonText = 'Close';
+
         if (!isWin) {
             this.revealMines();
+            this.Modal.infoText = 'You lost, tray again!';
+            this.buttons.reset.changeEmotion('negative');
+            this.Modal.setText();
+            this.Modal.toggleModal();
+        } else {
+            this.Modal.infoText = this.Timer.numberOfSeconds < this.Timer.maxNumberOfSeconds ? `You won, it took you ${this.Timer.numberOfSeconds}s. Congratulations!` : `You won. Congratulations!`;
+            this.buttons.reset.changeEmotion('positive');
+            this.Modal.setText();
+            this.Modal.toggleModal();
         }
-
     };
     handleElements() {
         this.board = this.getElement(this.UiSelectors.board);
@@ -92,12 +113,11 @@ class Game extends UI {
         this.cellsElements.removeEventListener('contextmenu', this.handleCellContextMenu);
     };
     addButtonsEventListeners() {
+        this.buttons.modal.addEventListener('click', () => this.Modal.toggleModal());
         this.buttons.easy.addEventListener('click', () => this.handleNewGameClick(this.config.easy));
         this.buttons.normal.addEventListener('click', () => this.handleNewGameClick(this.config.normal));
         this.buttons.expert.addEventListener('click', () => this.handleNewGameClick(this.config.expert));
         this.buttons.reset.element.addEventListener('click', () => this.handleNewGameClick({}));
-
-
     };
     handleNewGameClick({
         rows = this.numberOfRows,
@@ -179,6 +199,10 @@ class Game extends UI {
             this.endGame(false);
         };
         this.setCellValue(cell);
+
+        if (this.revealedCells === this.cellsToReveal && !this.isGameFinished) {
+            this.endGame(true);
+        }
     };
     revealMines() {
         this.cells
@@ -201,7 +225,7 @@ class Game extends UI {
 
         cell.value = minesCount;
         cell.revalCell();
-
+        this.revealedCells++;
         if (!cell.value) {
             for (let rowIndex = maxY; rowIndex <= minY; rowIndex++) {
                 for (let colIndex = maxX; colIndex <= minX; colIndex++) {
