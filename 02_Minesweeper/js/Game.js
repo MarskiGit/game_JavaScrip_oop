@@ -132,8 +132,8 @@ class Game extends UI {
         if (event.originalTarget.tagName === 'DIV') {
             const target = event.target;
             return {
-                rowIndex: parseInt(target.getAttribute('data-y'), 10),
-                collIndex: parseInt(target.getAttribute('data-x'), 10)
+                rowIndex: parseInt(event.target.getAttribute('data-y'), 10),
+                collIndex: parseInt(event.target.getAttribute('data-x'), 10)
             };
         };
         return false;
@@ -142,14 +142,38 @@ class Game extends UI {
         if (this.isGameFinished || cell.isFlagged) return
         if (cell.isMine) {
             this.endGame(false);
-        } else {
-            cell.revalCell();
         };
+        this.setCellValue(cell);
     };
     revealMines() {
-        this.cells.flat().filter(({
-            isMine
-        }) => isMine).forEach(cell => cell.revalCell())
+        this.cells
+            .flat().filter(({
+                isMine
+            }) => isMine).forEach(cell => cell.revalCell());
+    };
+    setCellValue(cell) {
+        let minesCount = 0;
+        const maxY = Math.max(cell.y - 1, 0),
+            minY = Math.min(cell.y + 1, this.numberOfRows - 1),
+            maxX = Math.max(cell.x - 1, 0),
+            minX = Math.min(cell.x + 1, this.numberOfCols - 1);
+
+        for (let rowIndex = maxY; rowIndex <= minY; rowIndex++) {
+            for (let colIndex = maxX; colIndex <= minX; colIndex++) {
+                if (this.cells[rowIndex][colIndex].isMine) minesCount++;
+            };
+        };
+
+        cell.value = minesCount;
+        cell.revalCell();
+
+        if (!cell.value) {
+            for (let rowIndex = maxY; rowIndex <= minY; rowIndex++) {
+                for (let colIndex = maxX; colIndex <= minX; colIndex++) {
+                    if (!this.cells[rowIndex][colIndex].isReveal) this.clickCell(this.cells[rowIndex][colIndex]);
+                };
+            };
+        };
     };
     setStyle() {
         document.documentElement.style.setProperty('--cells-in-row', this.numberOfCols)

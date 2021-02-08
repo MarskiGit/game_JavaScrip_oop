@@ -48,6 +48,7 @@ html {
   max-width: var(--game-max-width);
   margin-left: auto;
   margin-right: auto;
+  margin-top: 1.5rem;
 }
 
 .game__board {
