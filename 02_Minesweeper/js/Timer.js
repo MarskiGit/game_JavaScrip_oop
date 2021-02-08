@@ -15,6 +15,12 @@ export default class Timer extends UI {
     stopTimer() {
         clearInterval(this.interval);
     };
+    resetTimer() {
+        this.numberOfSeconds = 0;
+        this.setTimerValue(this.numberOfSeconds);
+        this.stopTimer();
+        this.startTimer();
+    };
     numberTimer() {
         this.numberOfSeconds++;
         this.numberOfSeconds <= this.maxNumberOfSeconds ? this.setTimerValue(this.numberOfSeconds) : this.stopTimer();

@@ -3,6 +3,7 @@ import Cell from './Cell.js';
 import UI from './UI.js';
 import Counter from './Counter.js';
 import Timer from './Timer.js';
+import ResetButton from './ResetButton.js';
 
 class Game extends UI {
     constructor() {
@@ -13,7 +14,7 @@ class Game extends UI {
                 cols: 8,
                 mines: 10
             },
-            medium: {
+            normal: {
                 rows: 16,
                 cols: 16,
                 mines: 40
@@ -24,22 +25,26 @@ class Game extends UI {
                 mines: 99
             }
         };
+        this.buttons = {
+            reset: new ResetButton()
+        };
+
         this.Counter = new Counter();
         this.Timer = new Timer();
-
         this.isGameFinished = false;
         this.numberOfRows = null;
         this.numberOfCols = null;
         this.numberOfmines = null;
         this.cells = [];
-        this.celssElements = null;
+        this.cellsElements = null;
         this.board = null;
 
     };
     initializeGame() {
         this.handleElements();
         this.Counter.init();
-        this.Timer.startTimer();
+
+        this.addButtonsEventListeners();
         this.newGame();
     };
     newGame(
@@ -51,13 +56,15 @@ class Game extends UI {
         this.numberOfCols = cols;
         this.numberOfmines = mines;
         this.Counter.setValue(this.numberOfmines);
+        this.Timer.resetTimer();
+
         this.setStyle();
 
         this.generateCells();
         this.renderBoard();
         this.placeMinesinCells();
 
-        this.celssElements = this.getElement(this.UiSelectors.board);
+        this.cellsElements = this.getElement(this.UiSelectors.board);
 
         this.addCelssEventListeners();
     };
@@ -71,13 +78,37 @@ class Game extends UI {
     };
     handleElements() {
         this.board = this.getElement(this.UiSelectors.board);
+        this.buttons.modal = this.getElement(this.UiSelectors.modalButton);
+        this.buttons.easy = this.getElement(this.UiSelectors.easyButton);
+        this.buttons.normal = this.getElement(this.UiSelectors.normalButton);
+        this.buttons.expert = this.getElement(this.UiSelectors.expertButton);
     };
     addCelssEventListeners() {
-        this.celssElements.addEventListener('click', this.handleCellClick);
-        this.celssElements.addEventListener('contextmenu', this.handleCellContextmenu);
+        this.cellsElements.addEventListener('click', this.handleCellClick);
+        this.cellsElements.addEventListener('contextmenu', this.handleCellContextmenu);
+    };
+    removeCellsEventListeners() {
+        this.cellsElements.removeEventListener('click', this.handleCellClick);
+        this.cellsElements.removeEventListener('contextmenu', this.handleCellContextMenu);
+    };
+    addButtonsEventListeners() {
+        this.buttons.easy.addEventListener('click', () => this.handleNewGameClick(this.config.easy));
+        this.buttons.normal.addEventListener('click', () => this.handleNewGameClick(this.config.normal));
+        this.buttons.expert.addEventListener('click', () => this.handleNewGameClick(this.config.expert));
+        this.buttons.reset.element.addEventListener('click', () => this.handleNewGameClick({}));
+
 
     };
+    handleNewGameClick({
+        rows = this.numberOfRows,
+        cols = this.numberOfCols,
+        mines = this.numberOfmines
+    }) {
+        this.removeCellsEventListeners();
+        this.newGame(rows, cols, mines);
+    };
     generateCells() {
+        this.cells.length = 0;
         for (let row = 0; row < this.numberOfRows; row++) {
             this.cells[row] = [];
             for (let col = 0; col < this.numberOfCols; col++) {
@@ -86,6 +117,10 @@ class Game extends UI {
         };
     };
     renderBoard() {
+        while (this.board.firstChild) {
+            this.board.removeChild(this.board.lastChild);
+        };
+
         this.cells.flat().forEach(cell => {
             this.board.insertAdjacentHTML('beforeend', cell.createElement())
             cell.element = cell.getElement(cell.selector)
@@ -139,7 +174,7 @@ class Game extends UI {
         return false;
     };
     clickCell(cell) {
-        if (this.isGameFinished || cell.isFlagged) return
+        if (this.isGameFinished || cell.isFlagged) return;
         if (cell.isMine) {
             this.endGame(false);
         };
