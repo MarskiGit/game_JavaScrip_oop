@@ -27,6 +27,7 @@ class Game extends UI {
         this.Counter = new Counter();
         this.Timer = new Timer();
 
+        this.isGameFinished = false;
         this.numberOfRows = null;
         this.numberOfCols = null;
         this.numberOfmines = null;
@@ -54,10 +55,19 @@ class Game extends UI {
 
         this.generateCells();
         this.renderBoard();
+        this.placeMinesinCells();
 
         this.celssElements = this.getElement(this.UiSelectors.board);
 
         this.addCelssEventListeners();
+    };
+    endGame(isWin) {
+        this.isGameFinished = true;
+        this.Timer.stopTimer();
+        if (!isWin) {
+            this.revealMines();
+        }
+
     };
     handleElements() {
         this.board = this.getElement(this.UiSelectors.board);
@@ -83,7 +93,22 @@ class Game extends UI {
     };
     handleCellClick = event => {
         const azimuth = this.getAzimuth(event);
-        if (azimuth) this.cells[azimuth.rowIndex][azimuth.collIndex].revalCell();
+        if (azimuth) this.clickCell(this.cells[azimuth.rowIndex][azimuth.collIndex]);
+    };
+    placeMinesinCells() {
+        let minesToPlace = this.numberOfmines;
+
+        while (minesToPlace) {
+            const rowIndex = this.getRandomInteger(0, this.numberOfRows - 1);
+            const colIndex = this.getRandomInteger(0, this.numberOfCols - 1);
+
+            const cell = this.cells[rowIndex][colIndex];
+
+            if (!cell.isMine) {
+                cell.addMine();
+                minesToPlace--;
+            };
+        };
     };
     handleCellContextmenu = event => {
         event.preventDefault();
@@ -91,7 +116,7 @@ class Game extends UI {
         if (azimuth) {
             const cell = this.cells[azimuth.rowIndex][azimuth.collIndex];
 
-            if (cell.isReval) return
+            if (cell.isReval || this.isGameFinished) return
             if (cell.isFlagged) {
                 this.Counter.increment();
                 cell.toggleFlag();
@@ -113,9 +138,24 @@ class Game extends UI {
         };
         return false;
     };
+    clickCell(cell) {
+        if (this.isGameFinished || cell.isFlagged) return
+        if (cell.isMine) {
+            this.endGame(false);
+        } else {
+            cell.revalCell();
+        };
+    };
+    revealMines() {
+        this.cells.flat().filter(({
+            isMine
+        }) => isMine).forEach(cell => cell.revalCell())
+    };
     setStyle() {
         document.documentElement.style.setProperty('--cells-in-row', this.numberOfCols)
     };
+    getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 };
 
 window.onload = function () {
