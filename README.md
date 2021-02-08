@@ -14,6 +14,7 @@ Game authors:
  
 * "Hangman" - Kacper Sieradziński
 * "Minesweeper" - Michał Dziedziński
+* "Diamonds" - Mateusz Domański
 
 ## Technologies
 Vanilla JavaScript ES6
