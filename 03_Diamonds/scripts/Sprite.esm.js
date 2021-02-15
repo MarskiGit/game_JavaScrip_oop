@@ -8,7 +8,7 @@ export class Sprite {
         height,
         spritesImage,
         numberOfSprites = 1,
-        offset = { x: 0, Y: 0 }
+        offset = { x: 0, y: 0 }
     ) {
         this.alpha = 255;
         this.height = height;
@@ -19,10 +19,12 @@ export class Sprite {
         this.x = x;
         this.y = y;
     }
+
     draw(numberOfSprites = 0, ratio = 1) {
         if (numberOfSprites > this.numberOfSprites) {
             return;
         }
+
         if (this.alpha !== 255) {
             canvas.context.globalAlpha = this.alpha / 255;
         }
