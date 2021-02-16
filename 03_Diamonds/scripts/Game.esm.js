@@ -9,6 +9,7 @@ import {
 import { canvas } from './Canvas.esm.js';
 import { media } from './Media.esm.js';
 import { Diamond } from './Diamond.esm.js';
+import { GameState } from './GameState.esm.js';
 
 const gameState = {
     pointsToWin: 7000,
@@ -21,17 +22,21 @@ class Game extends Common {
         super();
     }
     playLavel(level) {
+        const { numberOfMovements, pointsToWin, board } = gameLevels[level - 1];
         window.removeEventListener(DATALOADED_EVENT_NAME, this.playLavel);
-        const levelInfo = gameLevels[level - 1];
+        this.gameState = new GameState(
+            level,
+            numberOfMovements,
+            pointsToWin,
+            board,
+            media.diamondsSprite
+        );
         this.changeVisibilityScreen(canvas.element, VISIBLE_SCREEN);
-
-        this.diamond = new Diamond(50, 50, 1, 1, 2, media.diamondsSprite);
-
         this.animate();
     }
     animate() {
         canvas.drawGameOnCanvas(gameState);
-        this.diamond.draw();
+        this.gameState.getGameBoard().forEach((diamond) => diamond.draw());
         this.animationFrame = window.requestAnimationFrame(() =>
             this.animate()
         );
