@@ -15,15 +15,7 @@ export class Diamond extends Sprite {
             y: GAME_BOARD_Y_OFFSET,
         };
 
-        super(
-            x,
-            y,
-            DIAMOND_ORIGINAL_SIZE,
-            DIAMOND_ORIGINAL_SIZE,
-            diamondSpriteImage,
-            NUMBER_OF_DIAMONDS_TYPES,
-            offset
-        );
+        super(x, y, DIAMOND_ORIGINAL_SIZE, DIAMOND_ORIGINAL_SIZE, diamondSpriteImage, NUMBER_OF_DIAMONDS_TYPES, offset);
         (this.column = column), (this.kind = kind);
         this.row = row;
         this.match = 0;

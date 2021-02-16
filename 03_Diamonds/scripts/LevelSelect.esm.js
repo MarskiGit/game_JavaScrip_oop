@@ -29,9 +29,7 @@ class LevelSelect extends Common {
         button.classList.add('level-select__button');
         button.textContent = value;
         button.value = value;
-        button.addEventListener('click', (event) =>
-            this.buttonOnClickHandler(event)
-        );
+        button.addEventListener('click', (event) => this.buttonOnClickHandler(event));
         this.element.appendChild(button);
     }
     buttonOnClickHandler(event) {
@@ -40,13 +38,9 @@ class LevelSelect extends Common {
         this.loadLevel(event.currentTarget.value);
     }
     loadLevel(level) {
-        media.diamondsSprite = loader.loadImage(
-            'images/diamonds-transparent.png'
-        );
+        media.diamondsSprite = loader.loadImage('images/diamonds-transparent.png');
         media.backgroundImage = loader.loadImage('images/levelbackground.png');
-        window.addEventListener(DATALOADED_EVENT_NAME, () =>
-            game.playLavel(level)
-        );
+        window.addEventListener(DATALOADED_EVENT_NAME, () => game.playLavel(level));
     }
 }
 
