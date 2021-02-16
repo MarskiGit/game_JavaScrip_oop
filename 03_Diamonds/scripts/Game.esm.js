@@ -8,7 +8,6 @@ import {
 } from './gameLevels.esm.js';
 import { canvas } from './Canvas.esm.js';
 import { media } from './Media.esm.js';
-import { Diamond } from './Diamond.esm.js';
 import { GameState } from './GameState.esm.js';
 
 const gameState = {
