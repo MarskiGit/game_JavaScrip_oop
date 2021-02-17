@@ -12,12 +12,10 @@ class Loader extends Common {
         this.bindToElements();
         this.clearFlags();
     }
-
     bindToElements() {
         this.currentElement = this.bindToElement(LOAD_CURRENT_ID);
         this.totalElement = this.bindToElement(LOAD_TOTAL_ID);
     }
-
     loadImage(imageUrl) {
         this.changeVisibilityScreen(this.element, VISIBLE_SCREEN);
         this.isAllLoaded = false;
@@ -29,6 +27,18 @@ class Loader extends Common {
         image.addEventListener('load', (event) => this.itemLoaded(event), false);
 
         return image;
+    }
+    loadSound(soundUrl) {
+        this.changeVisibilityScreen(this.element, VISIBLE_SCREEN);
+        this.isAllLoaded = false;
+        this.totalCounter++;
+
+        const audio = new Audio();
+
+        audio.addEventListener('canplaythrough', (event) => this.itemLoaded(event), false);
+        audio.src = soundUrl;
+
+        return audio;
     }
     itemLoaded(event) {
         event.target.removeEventListener(event.type, this.itemLoaded, false);

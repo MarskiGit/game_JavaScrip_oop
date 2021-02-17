@@ -11,15 +11,10 @@ export class Sprite {
         this.x = x;
         this.y = y;
     }
-
     draw(numberOfSprites = 0, ratio = 1) {
-        if (numberOfSprites > this.numberOfSprites) {
-            return;
-        }
+        if (numberOfSprites > this.numberOfSprites) return;
 
-        if (this.alpha !== 255) {
-            canvas.context.globalAlpha = this.alpha / 255;
-        }
+        if (this.alpha !== 255) canvas.context.globalAlpha = this.alpha / 255;
 
         canvas.context.drawImage(
             this.spritesImage,
@@ -32,9 +27,6 @@ export class Sprite {
             this.width * ratio,
             this.height * ratio
         );
-
-        if (this.alpha !== 255) {
-            canvas.context.globalAlpha = 1;
-        }
+        if (this.alpha !== 255) canvas.context.globalAlpha = 1;
     }
 }
