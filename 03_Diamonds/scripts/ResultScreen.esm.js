@@ -42,6 +42,12 @@ class ResultScreen extends Common {
         this.userPointsElement.textContent = `${playerPoints}`;
         this.highScoresElement.textContent = 7000;
     }
+    backButtonClick() {
+        this.changeVisibilityScreen(canvas.element, HIDDEN_SCREEN);
+        this.changeVisibilityScreen(this.element, HIDDEN_SCREEN);
+        mainMenu.showLevelScreen();
+    }
+    restartLevelClick() {}
 }
 
 export const resultScreen = new ResultScreen();
