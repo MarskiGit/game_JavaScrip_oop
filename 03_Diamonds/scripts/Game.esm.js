@@ -6,6 +6,7 @@ import { media } from './Media.esm.js';
 import { GameState } from './GameState.esm.js';
 import { mouseController } from './MouseController.esm.js';
 import { DIAMOND_SIZE, NUMBER_OF_DIAMONDS_TYPES } from './Diamond.esm.js';
+import { resultScreen } from './ResultScreen.esm.js';
 
 export const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1;
@@ -35,7 +36,7 @@ class Game extends Common {
         this.clearMatched();
         canvas.drawGameOnCanvas(this.gameState);
         this.gameState.getGameBoard().forEach((diamond) => diamond.draw());
-        this.animationFrame = window.requestAnimationFrame(() => this.animate());
+        this.checkEndOfGame();
     }
     handleMouseState() {
         if (mouseController.clicked && !this.gameState.getIsSwaping() && !this.gameState.getIsMoving()) mouseController.state++;
@@ -183,6 +184,17 @@ class Game extends Common {
                 diamond.alpha = 255;
             }
         });
+    }
+    checkEndOfGame() {
+        if (!this.gameState.getLeftMovement() && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()) {
+            const isPlayerWinner = this.gameState.isPlayerWinner();
+            if (isPlayerWinner && gameLevels[this.gameState.level]) {
+                console.log('kolejny level odblokowaany');
+            }
+            resultScreen.viewREsultScreen(isPlayerWinner, this.gameState.getPlayerPoints(), this.gameState.level);
+        } else {
+            this.animationFrame = window.requestAnimationFrame(() => this.animate());
+        }
     }
     swap(firstDiamond, secondDiamond) {
         [
