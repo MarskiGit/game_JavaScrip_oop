@@ -32,7 +32,6 @@ export class GameState {
     get pointsToWin() {
         return this._pointsToWin;
     }
-
     mixDiamonds() {
         const mixedDiamonds = _gameBoard.splice(0, DIAMONDS_ARRAY_WIDTH);
         let index = DIAMONDS_ARRAY_WIDTH;

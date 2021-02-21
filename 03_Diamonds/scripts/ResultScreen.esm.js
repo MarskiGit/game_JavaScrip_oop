@@ -47,7 +47,10 @@ class ResultScreen extends Common {
         this.changeVisibilityScreen(this.element, HIDDEN_SCREEN);
         mainMenu.showLevelScreen();
     }
-    restartLevelClick() {}
+    restartLevelClick() {
+        this.changeVisibilityScreen(this.element, HIDDEN_SCREEN);
+        levelSelect.loadLevel(game.gameState.level);
+    }
 }
 
 export const resultScreen = new ResultScreen();
