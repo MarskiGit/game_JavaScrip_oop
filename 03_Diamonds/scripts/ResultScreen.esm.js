@@ -1,9 +1,9 @@
 import { Common, VISIBLE_SCREEN, HIDDEN_SCREEN } from './Common.esm.js';
 import { canvas } from './Canvas.esm.js';
 import { mainMenu } from './MainMenu.esm.js';
-// import { userData } from './UserData.esm.js';
 import { levelSelect } from './LevelSelect.esm.js';
 import { game } from './Game.esm.js';
+import { userData } from './UserData.esm.js';
 
 const ID = {
     RESULT_SCREEN_BACK_BUTTON: 'js-back-to-levels',
@@ -31,7 +31,7 @@ class ResultScreen extends Common {
         backButtonElement.addEventListener('click', () => this.backButtonClick());
         restartButtonElement.addEventListener('click', () => this.restartLevelClick());
     }
-    viewREsultScreen(isGameWin, playerPoints, level) {
+    viewResultScreen(isGameWin, playerPoints, level) {
         if (isGameWin) {
             this.element.classList.add(ID.RESULT_SCREEN_GAME_WIN);
         } else {
@@ -40,7 +40,7 @@ class ResultScreen extends Common {
         this.changeVisibilityScreen(this.element, VISIBLE_SCREEN);
         this.resultTextElement.textContent = isGameWin ? 'WWYGRAŁEŚ !' : 'PRZEGRAŁEŚ';
         this.userPointsElement.textContent = `${playerPoints}`;
-        this.highScoresElement.textContent = 7000;
+        this.highScoresElement.textContent = `${userData.getHighScores(level)}`;
     }
     backButtonClick() {
         this.changeVisibilityScreen(canvas.element, HIDDEN_SCREEN);

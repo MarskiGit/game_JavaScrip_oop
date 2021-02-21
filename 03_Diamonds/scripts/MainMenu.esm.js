@@ -22,6 +22,7 @@ class MainMenu extends Common {
         gameSettingsButton.addEventListener('click', () => this.showSettingsScreen());
     }
     showLevelScreen() {
+        levelSelect.createButtons();
         this.changeVisibilityScreen(this.element, HIDDEN_CLASS);
         this.changeVisibilityScreen(levelSelect.element, VISIBLE_SCREEN);
     }
