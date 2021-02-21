@@ -5,7 +5,7 @@ import { levelSelect } from './LevelSelect.esm.js';
 import { game } from './Game.esm.js';
 import { userData } from './UserData.esm.js';
 
-const ID = {
+const selectors = {
     RESULT_SCREEN_BACK_BUTTON: 'js-back-to-levels',
     RESULT_SCREEN_END_SCREEN: 'js-end-screen',
     RESULT_SCREEN_GAME_WIN: 'end-screen--is-win',
@@ -17,25 +17,25 @@ const ID = {
 
 class ResultScreen extends Common {
     constructor() {
-        super(ID.RESULT_SCREEN_END_SCREEN);
+        super(selectors.RESULT_SCREEN_END_SCREEN);
         this.bindToElements();
     }
     bindToElements() {
-        this.resultTextElement = this.bindToElement(ID.RESULT_SCREEN_HEADER);
-        this.userPointsElement = this.bindToElement(ID.RESULT_SCREEN_USER_POINTS);
-        this.highScoresElement = this.bindToElement(ID.RESULT_SCREEN_HIGH_SCORES);
+        this.resultTextElement = this.bindToElement(selectors.RESULT_SCREEN_HEADER);
+        this.userPointsElement = this.bindToElement(selectors.RESULT_SCREEN_USER_POINTS);
+        this.highScoresElement = this.bindToElement(selectors.RESULT_SCREEN_HIGH_SCORES);
 
-        const backButtonElement = this.bindToElement(ID.RESULT_SCREEN_BACK_BUTTON);
-        const restartButtonElement = this.bindToElement(ID.RESULT_SCREEN_RESTART_LEVEL_BUTTON);
+        const backButtonElement = this.bindToElement(selectors.RESULT_SCREEN_BACK_BUTTON);
+        const restartButtonElement = this.bindToElement(selectors.RESULT_SCREEN_RESTART_LEVEL_BUTTON);
 
         backButtonElement.addEventListener('click', () => this.backButtonClick());
         restartButtonElement.addEventListener('click', () => this.restartLevelClick());
     }
     viewResultScreen(isGameWin, playerPoints, level) {
         if (isGameWin) {
-            this.element.classList.add(ID.RESULT_SCREEN_GAME_WIN);
+            this.element.classList.add(selectors.RESULT_SCREEN_GAME_WIN);
         } else {
-            this.element.classList.remove(ID.RESULT_SCREEN_GAME_WIN);
+            this.element.classList.remove(selectors.RESULT_SCREEN_GAME_WIN);
         }
         this.changeVisibilityScreen(this.element, VISIBLE_SCREEN);
         this.resultTextElement.textContent = isGameWin ? 'WWYGRAŁEŚ !' : 'PRZEGRAŁEŚ';
@@ -43,8 +43,8 @@ class ResultScreen extends Common {
         this.highScoresElement.textContent = `${userData.getHighScores(level)}`;
     }
     backButtonClick() {
-        this.changeVisibilityScreen(canvas.element, HIDDEN_SCREEN);
-        this.changeVisibilityScreen(this.element, HIDDEN_SCREEN);
+        this.changeVisibilityScreen(canvas.element, HIDDDEN_SCREEN);
+        this.changeVisibilityScreen(this.element, HIDDDEN_SCREEN);
         mainMenu.showLevelScreen();
     }
     restartLevelClick() {
