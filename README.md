@@ -19,6 +19,7 @@ Game authors:
 -   "Minesweeper" - Michał Dziedziński
 -   "Diamonds" - Mateusz Domański
 -   "Black Jack" - Kacper Sieradziński
+-   "StarShip" - Michał Dziedziński
 
 ## Technologies
 
