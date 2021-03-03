@@ -7,7 +7,6 @@ export class Common {
         if (typeof elementID === 'undefined') {
             return;
         }
-
         this.element = this.bindToElement(elementID);
     }
     bindToElement(elementToFindById) {
