@@ -1,12 +1,12 @@
 import { Missile } from './Missile.js';
 
 export class Spaceship {
-    #modifier = 5;
+    #modifier = 10;
     #leftArrow = false;
     #rightArrow = false;
-    constructor(element) {
-        this.element = element.spaceship;
-        this.container = element.container;
+    constructor(elements) {
+        this.element = elements.spaceship;
+        this.container = elements.container;
         this.missiles = [];
     }
     init() {
@@ -52,7 +52,7 @@ export class Spaceship {
     };
     #whatKey() {
         if (this.#leftArrow && this.#getPosition() > 0) this.element.style.left = `${parseInt(this.element.style.left, 10) - this.#modifier}px`;
-        if (this.#rightArrow && this.#getPosition() < window.innerWidth)
+        if (this.#rightArrow && this.#getPosition() + 10 < window.innerWidth)
             this.element.style.left = `${parseInt(this.element.style.left, 10) + this.#modifier}px`;
     }
     #shot() {
