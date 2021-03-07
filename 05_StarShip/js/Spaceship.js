@@ -4,17 +4,17 @@ export class Spaceship {
     #modifier = 10;
     #leftArrow = false;
     #rightArrow = false;
-    constructor(elements) {
-        this.element = elements.spaceship;
-        this.container = elements.container;
+    constructor(spaceship, container) {
+        this.element = spaceship;
+        this.container = container;
         this.missiles = [];
     }
     init() {
-        this.#setPosition();
+        this.setPosition();
         this.#eventListeners();
         this.#gameLoop();
     }
-    #setPosition() {
+    setPosition() {
         this.element.style.bottom = '0px';
         this.element.style.left = `${window.innerWidth / 2 - this.#getPosition()}px`;
     }
