@@ -20,6 +20,7 @@ Game authors:
 -   "Diamonds" - Mateusz Domański
 -   "Black Jack" - Kacper Sieradziński
 -   "StarShip" - Michał Dziedziński
+-   "Arkanoid" - Mateusz Domański
 
 ## Technologies
 
