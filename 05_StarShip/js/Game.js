@@ -5,19 +5,23 @@ class Game {
     #htmlElements = {
         spaceship: document.querySelector('[data-spaceship]'),
         container: document.querySelector('[data-container]'),
+        score: document.querySelector('[data-score]'),
+        lives: document.querySelector('[data-lives]'),
     };
     #ship = new Spaceship(this.#htmlElements);
     #enemies = [];
+    #lives = 3;
+    #score = 0;
     #enemiesInterval = null;
     #checkPositionInterval = null;
     #createEnemyInterval = null;
 
     init() {
-        this.#enemiesInterval = 30;
         this.#ship.init();
         this.#newGame();
     }
     #newGame() {
+        this.#enemiesInterval = 30;
         this.#createEnemyInterval = setInterval(() => this.#randomNewEnemy(), 1000);
         this.#checkPositionInterval = setInterval(() => this.#checkPosition(), 1);
     }
@@ -32,6 +36,7 @@ class Game {
             if (enemyPosition.top > window.innerHeight) {
                 enemy.explode();
                 enemiesArr.splice(enemyIndex, 1);
+                this.#updateLives();
             }
             this.#ship.missiles.forEach((missile, missileIndex, missileArr) => {
                 const missilePosition = {
@@ -52,6 +57,7 @@ class Game {
                     }
                     missile.remove();
                     missileArr.splice(missileIndex, 1);
+                    this.#updateScore();
                 }
                 if (missilePosition.bottom < 0) {
                     missile.remove();
@@ -66,13 +72,30 @@ class Game {
             ? this.#createNewEnemy(this.#htmlElements.container, this.#enemiesInterval, 'enemy', 'explosion')
             : this.#createNewEnemy(this.#htmlElements.container, this.#enemiesInterval * 2, 'enemy--big', 'explosion--big', 3);
     }
-
     #createNewEnemy(...params) {
         const enemy = new Enemy(...params);
         enemy.init();
         this.#enemies.push(enemy);
     }
+    #updateScore() {
+        this.#score++;
+        if (!(this.#score % 5)) this.#enemiesInterval--;
+        this.#updateScoreText();
+    }
+    #updateLives() {
+        this.#lives--;
+        this.#updateLivesText();
+        this.#htmlElements.container.classList.add('hit');
+        setTimeout(() => this.#htmlElements.container.classList.remove('hit'), 100);
+    }
+    #updateScoreText() {
+        this.#htmlElements.score.textContent = `Score: ${this.#score}`;
+    }
+    #updateLivesText() {
+        this.#htmlElements.lives.textContent = `Lives: ${this.#lives}`;
+    }
 }
+
 window.onload = function () {
     const game = new Game();
     game.init();
