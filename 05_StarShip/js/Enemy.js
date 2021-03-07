@@ -1,15 +1,29 @@
 export class Enemy {
-    constructor(elements, intervalTime, enemyClass, lives) {
-        this.container = elements.container;
+    constructor(container, intervalTime, enemyClass, explosionClass, lives = 1) {
+        this.container = container;
         this.element = document.createElement('div');
         this.enemyClass = enemyClass;
-        this.intervalTime = intervalTime;
+        this.explosionClass = explosionClass;
         this.interval = null;
+        this.intervalTime = intervalTime;
         this.lives = lives;
+        this.animationTime = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--explosions-animation-time'), 10);
     }
     init() {
         this.#setEnemy();
         this.#updatePosition();
+    }
+    hit() {
+        this.lives--;
+        if (!this.lives) {
+            this.explode();
+        }
+    }
+    explode() {
+        this.element.classList.remove(this.enemyClass);
+        this.element.classList.add(this.explosionClass);
+        clearInterval(this.interval);
+        setTimeout(() => this.element.remove(), this.animationTime);
     }
     #setEnemy() {
         this.element.classList.add(this.enemyClass);
@@ -25,9 +39,5 @@ export class Enemy {
     }
     #setNewPosition() {
         this.element.style.top = `${this.element.offsetTop + 1}px`;
-    }
-    remove() {
-        clearInterval(this.interval);
-        this.element.remove();
     }
 }
