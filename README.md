@@ -12,7 +12,7 @@
 
 ## General info
 
-Implementation of the programming course. Object-oriented programming in JavaScript
+Implementation of the programming course. Object-oriented programming in JavaScript.
 Game authors:
 
 -   "Hangman" - Kacper Sieradziński
