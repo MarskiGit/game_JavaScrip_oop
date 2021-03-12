@@ -8,7 +8,7 @@ import { mainMenu } from './MainMenu.esm.js';
 import { Sprite } from './Sprite.esm.js';
 import { Paddle } from './Paddle.esm.js';
 import { keyboardController, KEY_CODE_PAUSE, KEY_CODE_LEFT, KEY_CODE_RIGHT } from './KeyboardController.esm.js';
-// import { Ball } from './Ball.esm.js';
+import { Ball } from './Ball.esm.js';
 import { GameState } from './GameState.esm.js';
 
 const PLAYER_SPEED = 10;
@@ -23,7 +23,7 @@ class Game extends Common {
 
         this.background = new Sprite(0, 33, 800, 450, media.spriteImage, 0, 0);
         this.paddle = new Paddle();
-        // this.ball = new Ball();
+        this.ball = new Ball();
         this.gameState = new GameState(level);
         this.changeVisibilityScreen(canvas.element, VISIBLE_SCREEN);
         this.changeVisibilityScreen(mainMenu.miniSettingsLayerElement, VISIBLE_SCREEN);

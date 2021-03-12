@@ -1,5 +1,5 @@
 import { gameLevels } from './gameLevels.esm.js';
-// import { Block } from './Block.esm.js';
+import { Block } from './Block.esm.js';
 
 export class GameState {
     constructor(level) {

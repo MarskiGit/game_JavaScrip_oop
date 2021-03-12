@@ -11,6 +11,7 @@ class Canvas extends Common {
         super(GAME_SCREEN_ID);
         this.configureCanvas();
     }
+
     configureCanvas() {
         this.context = this.element.getContext('2d');
         this.context.canvas.width = CANVAS_WIDTH;
@@ -18,9 +19,11 @@ class Canvas extends Common {
         this.context.font = '20px Arial white';
         this.context.fillStyle = 'white';
     }
+
     drawGameOnCanvas(gameState) {
         this.drawBackground();
     }
+
     drawBackground() {
         this.context.drawImage(media.backgroundImage, 0, 0);
     }

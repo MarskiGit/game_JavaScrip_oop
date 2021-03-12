@@ -12,7 +12,7 @@
 
 ## General info
 
-Implementation of the programming course. More information coming soon.
+Implementation of the programming course. Object-oriented programming in JavaScript
 Game authors:
 
 -   "Hangman" - Kacper Sieradziński
@@ -28,7 +28,7 @@ Vanilla JavaScript
 
 ## Status
 
--   Project is: in progress
+-   Project is: end
 
 ## Demo
 

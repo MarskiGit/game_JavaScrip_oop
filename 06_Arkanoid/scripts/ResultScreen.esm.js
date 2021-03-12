@@ -1,6 +1,7 @@
 import { Common, VISIBLE_SCREEN, HIDDEN_SCREEN } from './Common.esm.js';
 import { canvas } from './Canvas.esm.js';
 import { mainMenu } from './MainMenu.esm.js';
+import { userData } from './UserData.esm.js';
 import { levelSelect } from './LevelSelect.esm.js';
 import { game } from './Game.esm.js';
 
